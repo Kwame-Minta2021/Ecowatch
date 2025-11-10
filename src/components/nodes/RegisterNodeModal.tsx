@@ -53,7 +53,7 @@ export function RegisterNodeModal({
       setError("Fill ID, Name, Latitude and Longitude (or use location)")
       return
     }
-    const node = {
+    const node: Node = {
       id,
       name,
       location: { name, lat: lat as number, lng: lng as number },
