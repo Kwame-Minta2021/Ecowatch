@@ -17,7 +17,7 @@ const DEFAULT_CONFIG: AiConfig = {
 export function predictRisk(node: Node, config: AiConfig = DEFAULT_CONFIG): PredictionOutput | null {
   const latest = node.sensorData.at(-1)
   if (!latest) return null
-  const score = Number(latest.aiRiskScore ?? latest.intensity * 10 ?? 0)
+  const score = Number(latest.aiRiskScore ?? (latest.intensity ?? 0) * 10)
   const confidence = Math.min(100, Math.max(0, Math.round(score)))
   const predictedSeverity = score >= config.highThreshold ? "HIGH" : score >= config.mediumThreshold ? "MEDIUM" : "LOW"
   return {
