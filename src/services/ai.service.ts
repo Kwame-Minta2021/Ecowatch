@@ -28,8 +28,14 @@ export function predictRisk(node: Node, config: AiConfig = DEFAULT_CONFIG): Pred
     anomalyProbability: predictedSeverity === "HIGH" ? confidence : Math.round(confidence / 2),
     predictedSeverity,
     contributingFactors: [
-      { metric: "intensity", weight: Number((latest.intensity ?? 0) / 10).toFixed ? Number(((latest.intensity ?? 0) / 10).toFixed(2)) : (latest.intensity ?? 0) / 10 },
-      { metric: "vibrationCount", weight: Math.min(1, (latest.vibrationCount ?? 0) / 100) },
+      {
+        metric: "intensity",
+        weight: Math.round(((latest.intensity ?? 0) / 10) * 100) / 100,
+      },
+      {
+        metric: "vibrationCount",
+        weight: Math.min(1, (latest.vibrationCount ?? 0) / 100),
+      },
     ],
   }
 }
