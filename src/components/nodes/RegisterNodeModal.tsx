@@ -4,6 +4,7 @@ import { useState } from "react"
 import { createPortal } from "react-dom"
 import { resolveLocation } from "@/services/location"
 import { useEcoWatchStore } from "@/store/useEcoWatchStore"
+import type { Node as EcNode } from "@/types"
 
 export function RegisterNodeModal({
   open,
@@ -53,7 +54,7 @@ export function RegisterNodeModal({
       setError("Fill ID, Name, Latitude and Longitude (or use location)")
       return
     }
-    const node: Node = {
+    const node: EcNode = {
       id,
       name,
       location: { name, lat: lat as number, lng: lng as number },
