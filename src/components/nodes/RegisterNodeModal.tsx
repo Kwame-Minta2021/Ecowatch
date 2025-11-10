@@ -61,7 +61,7 @@ export function RegisterNodeModal({
       lastUpdate: new Date().toISOString(),
       riskLevel: "LOW",
       sensorData: [],
-    } as const
+    }
     // optimistic update
     upsertNode(node)
     // persist to Firebase (non-blocking)
