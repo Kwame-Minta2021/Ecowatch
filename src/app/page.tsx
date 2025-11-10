@@ -1,101 +1,50 @@
-import Image from "next/image";
+ "use client"
+import { NodesMap } from "@/components/maps/NodesMap"
+import { OverviewMetrics } from "@/components/dashboard/OverviewMetrics"
+import { AlertFeed } from "@/components/alerts/AlertFeed"
+import { useState } from "react"
+import { RegisterNodeModal } from "@/components/nodes/RegisterNodeModal"
+import { NodesList } from "@/components/nodes/NodesList"
+import { useRealtime } from "@/hooks/useRealtime"
+import { MobileSidebar } from "@/components/layout/MobileSidebar"
+import { Menu } from "lucide-react"
 
 export default function Home() {
+  useRealtime()
+  const [open, setOpen] = useState(false)
+  const [drawer, setDrawer] = useState(false)
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <main className="flex min-h-screen flex-col gap-4 p-4 sm:gap-6 sm:p-6">
+      <header className="sticky top-0 z-40 -mx-4 mb-2 flex items-center justify-between border-b bg-background/80 p-4 backdrop-blur sm:mx-0 sm:rounded-xl sm:border sm:bg-card/50 sm:p-4">
+        <div>
+          <div className="flex items-center gap-2">
+            <button className="rounded-md border p-2 lg:hidden" aria-label="Open menu" onClick={() => setDrawer(true)}>
+              <Menu className="h-4 w-4" />
+            </button>
+            <div>
+              <h1 className="text-base font-semibold sm:text-xl">EcoWatch Control Center</h1>
+              <p className="text-[11px] text-muted-foreground sm:text-xs">Government-grade illegal mining monitoring</p>
+            </div>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+        <div className="flex items-center gap-2">
+          <button className="rounded-md border px-3 py-2 text-sm sm:text-xs" onClick={() => setOpen(true)}>Add Node</button>
+          <span className="hidden rounded-full bg-emerald-500/20 px-3 py-1 text-xs text-emerald-300 sm:inline">Realtime</span>
+        </div>
+      </header>
+      <div className="hidden w-72 shrink-0 border-r lg:block">
+        {/* Desktop sidebar placeholder for future: integrate as a grid if needed */}
+      </div>
+      <OverviewMetrics />
+      <section className="grid gap-4 lg:grid-cols-3">
+        <div className="rounded-xl border bg-card/50 p-2 sm:p-4 lg:col-span-2">
+          <NodesMap />
+        </div>
+        <AlertFeed />
+      </section>
+      <NodesList />
+      <RegisterNodeModal open={open} onOpenChange={setOpen} />
+      <MobileSidebar open={drawer} onOpenChange={setDrawer} />
+    </main>
   );
 }
